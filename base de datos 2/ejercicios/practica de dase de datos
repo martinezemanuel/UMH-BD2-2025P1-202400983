@@ -1,0 +1,25 @@
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS sp_upd_currency;
+
+CREATE PROCEDURE sp_upd_currency(
+    IN p_tasa DECIMAL(15,6),
+    IN p_currency_id INT
+)
+BEGIN	
+    IF p_tasa > 0 AND p_tasa IS NOT NULL THEN 
+        UPDATE db_demo.currencies 
+        SET exchange_rate = p_tasa 
+        WHERE currency_id = p_currency_id > 0
+    ELSE  
+        SELECT "No se puede actualizar" AS mensaje;
+    END IF;
+END //
+
+DELIMITER ;
+
+-- Verificar los datos antes de ejecutar la actualización
+SELECT * FROM db_demo.currencies WHERE currency_ID = 9;
+
+-- Llamar al procedimiento
+CALL db_demo.sp_upd_currency(0,9);

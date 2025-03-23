@@ -1,12 +1,17 @@
 USE solicitudempleo;
 
 DELIMITER //
-
+-- En esta funcion es para obtener la edad de una persona basada en su fecha de nacimiento.
+-- Ejemplo de uso: SELECT ObtenerEdad('1993-05-12');
 CREATE FUNCTION ObtenerEdad(p_fecha_nacimiento DATE) RETURNS INT DETERMINISTIC
 BEGIN
+-- Calcula la diferencia del año entre la diferencia de fecha de nacimiento y de la fecha actual.
     RETURN TIMESTAMPDIFF(YEAR, p_fecha_nacimiento, CURDATE());
 END //
 
+-- esta funcion es  para obtener el nombre completo de una persona usando su ID.
+-- COMO USAR: Se llama a la función `ObtenerNombreCompleto` pasando como parámetro el ID de la persona.
+-- Ejemplo de como usarlo: SELECT ObtenerNombreCompleto(1);
 CREATE FUNCTION ObtenerNombreCompleto(p_id INT) RETURNS VARCHAR(255) DETERMINISTIC
 BEGIN
     DECLARE nombre_completo VARCHAR(255);
@@ -19,8 +24,10 @@ END //
 
 CREATE FUNCTION ContarFamiliares(p_id_persona INT) RETURNS INT DETERMINISTIC
 BEGIN
+  -- Se van a concatenan los nombres y los apellidos para agrupar y formar el nombre completo.
     DECLARE total INT;
     SELECT COUNT(*) INTO total 
+      -- Muestra el número total de los familiares agregados.
     FROM DatosFamiliares 
     WHERE id_persona = p_id_persona;
     RETURN total;
